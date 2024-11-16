@@ -1,0 +1,145 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: {{ .Values.keycloak.image }}
+          args:
+            - start-dev
+          env:
+            - name: KC_DB
+              value: postgres
+            - name: KC_DB_URL_HOST
+              value: {{ .Values.keycloak.db.host }}
+            - name: KC_DB_URL_DATABASE
+              value: {{ .Values.keycloak.db.database }}
+            - name: KC_DB_PASSWORD
+              value: {{ .Values.keycloak.db.password }}
+            - name: KC_DB_USERNAME
+              value: {{ .Values.keycloak.db.user }}
+            - name: KC_DB_URL_PORT
+              value: "{{ .Values.keycloak.db.port }}"
+            - name: KC_DB_SCHEMA
+              value: public
+            - name: KC_HOSTNAME
+              value: keycloak.winu.fr
+            - name: KEYCLOAK_ADMIN
+              value: {{ .Values.keycloak.adminUser }}
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: {{ .Values.keycloak.adminPassword }}
+            - name: KC_HTTPS_CERTIFICATE_FILE
+              value: {{ .Values.keycloak.https.cert }}
+            - name: KC_HTTPS_CERTIFICATE_KEY_FILE
+              value: {{ .Values.keycloak.https.key }}
+            - name: KC_HTTPS_PORT
+              value: "443"
+            - name: KC_HTTP_PORT
+              value: "8080"
+          ports:
+            - containerPort: 8080
+            - containerPort: 443
+          volumeMounts:
+            - name: certs
+              mountPath: /opt/keycloak/winu/certs
+      volumes:
+        - name: certs
+          secret:
+            secretName: keycloak-externalsecret-tls
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: dev-winu.artifact.winu.fr/postgres:1.0
+          args:
+#            - "-c"
+#            - "shared_buffers=256MB"
+            - "-c"
+            - "max_connections=200"
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.database }}
+            - name: POSTGRES_USER
+              value: {{ .Values.postgres.user }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.postgres.password }}
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+            - name: init-sql
+              mountPath: /docker-entrypoint-initdb.d/init.sql
+              subPath: init.sql
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: pgdata-keycloak-winu
+        - name: init-sql
+          configMap:
+            name: init-config-postgresql
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: {{ .Values.rabbitmq.image }}
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: {{ .Values.rabbitmq.user }}
+            - name: RABBITMQ_DEFAULT_PASS
+              value: {{ .Values.rabbitmq.password }}
+            - name: RABBITMQ_ERLANG_COOKIE
+              value: {{ .Values.rabbitmq.erlangCookie }}
+          ports:
+            - containerPort: 5672
+            - containerPort: 15672
+          volumeMounts:
+            - name: rabbitmq-definitions
+              mountPath: /etc/rabbitmq/definitions.json
+              subPath: definitions.json
+            - name: rabbitmq-config
+              mountPath: /etc/rabbitmq/rabbitmq.config
+              subPath: rabbitmq.config
+      volumes:
+        - name: rabbitmq-definitions
+          configMap:
+            name: rabbitmq-config
+        - name: rabbitmq-config
+          configMap:
+            name: rabbitmq-config

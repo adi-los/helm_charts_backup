@@ -1,0 +1,52 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: kong-admin-strip
+  namespace: {{ .Release.Namespace }}
+spec:
+  stripPrefix:
+    prefixes:
+      - /admin
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: kong-proxy-strip
+  namespace: {{ .Release.Namespace }}
+spec:
+  stripPrefix:
+    prefixes:
+      - /proxy
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kong-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`kong.winu.fr`) && PathPrefix(`/admin`)
+      kind: Rule
+      services:
+        - name: kong-service
+          port: {{ .Values.kong.admin.tls.servicePort }}
+          scheme: https
+      middlewares:
+        - name: kong-admin-strip
+    - match: Host(`kong.winu.fr`) && PathPrefix(`/proxy`)
+      kind: Rule
+      services:
+        - name: kong-service
+          port: {{ .Values.kong.proxy.tls.servicePort }}
+          scheme: https
+      middlewares:
+        - name: kong-proxy-strip
+  tls:
+    secretName: kong-externalsecret-tls
+

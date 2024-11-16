@@ -1,0 +1,46 @@
+keycloak:
+#  image: dev-winu.artifact.winu.fr/quay.io/keycloak/keycloak:21.1.1 
+  image: quay.io/keycloak/keycloak:21.1.1
+  hostname: keycloak.winu.fr
+  https:
+    cert: /opt/keycloak/winu/certs/tls.crt
+    key: /opt/keycloak/winu/certs/tls.key
+  adminUser: admin
+  adminPassword: admin
+  db:
+    host: database.winu.fr
+    database: keycloak
+    user: keycloak
+    password: keycloak
+    port: 30940
+    adminUser: admin
+    adminPassword: admin
+  ports:
+    http: 8080
+    https: 443
+  volumes:
+    certs: /opt/keycloak/winu/certs
+#    customJar: /opt/keycloak/providers/custom-event-listener.jar
+
+postgres:
+  image: postgres:15
+  database: keycloak
+  user: keycloak
+  password: keycloak
+  adminUser: admin
+  adminPassword: admin
+  volumes:
+    data: /var/lib/postgresql/data
+
+rabbitmq:
+  image: rabbitmq:3-management
+  user: admin
+  password: p@ssw0rd
+  erlangCookie: secret string
+  ports:
+    amqp: 5672
+    management: 15672
+  volumes:
+    definitions: /etc/rabbitmq/definitions.json
+    config: /etc/rabbitmq/rabbitmq.config
+

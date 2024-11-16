@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kong-config
+data:
+  kong.yml: |
+    # a very minimal declarative config file
+    _format_version: "2.1"
+    _transform: true
+
+    services:
+    - name: winu-svc
+      url: http://10.0.1.20:8001/winu
+      routes:
+      - name: winu
+        paths:
+        - /winu

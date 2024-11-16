@@ -1,0 +1,6 @@
+apiVersion: v2
+name: kong
+description: A Helm chart for Kong API Gateway
+version: 0.1.0
+appVersion: "2.8.1"
+

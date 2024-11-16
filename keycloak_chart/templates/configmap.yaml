@@ -1,0 +1,120 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+data:
+  rabbitmq.config: |
+    [
+      {rabbit, [
+        {loopback_users, []},
+        {default_user, <<"admin">>},
+        {default_pass, <<"p@ssw0rd">>}
+      ]},
+      {rabbitmq_management, [
+        {load_definitions, "/etc/rabbitmq/definitions.json"}
+      ]}
+    ].
+  definitions.json: |
+    {
+      "rabbit_version":"3.6.3",
+      "users": [
+        {
+          "name":"winu",
+          "password_hash":"FVpAzc6tY/Bks0v0mXAU86QMhGsIowDOoKPVifZRiakhY+65",
+          "hashing_algorithm":"rabbit_password_hashing_sha256",
+          "tags":"administrator"
+        }
+      ],
+      "vhosts": [
+        {
+          "name":"/"
+        }
+      ],
+      "permissions":[
+        {
+          "user":"winu",
+          "vhost":"/",
+          "configure":".*",
+          "write":".*",
+          "read":".*"
+        }
+      ],
+      "queues":[
+        {
+          "name":"user.email.verification.queue",
+          "vhost":"/",
+          "durable":true,
+          "auto_delete":false,
+          "arguments":{}
+        },
+        {
+          "name":"admin.events.queue",
+          "vhost":"/",
+          "durable":true,
+          "auto_delete":false,
+          "arguments":{}
+        },
+        {
+          "name":"user.password.reset.queue",
+          "vhost":"/",
+          "durable":true,
+          "auto_delete":false,
+          "arguments":{}
+        }
+      ],
+      "exchanges":[
+        {
+          "name":"user.email.verification.exchange",
+          "vhost":"/",
+          "type":"topic",
+          "durable":true,
+          "auto_delete":false,
+          "internal":false,
+          "arguments":{}
+        },
+        {
+          "name":"admin.events.exchange",
+          "vhost":"/",
+          "type":"topic",
+          "durable":true,
+          "auto_delete":false,
+          "internal":false,
+          "arguments":{}
+        },
+        {
+          "name":"user.password.reset.exchange",
+          "vhost":"/",
+          "type":"topic",
+          "durable":true,
+          "auto_delete":false,
+          "internal":false,
+          "arguments":{}
+        }
+      ],
+      "bindings":[
+        {
+          "source":"user.email.verification.exchange",
+          "vhost":"/",
+          "destination":"user.email.verification.queue",
+          "destination_type":"queue",
+          "routing_key":"user.email.verification.queue",
+          "arguments":{}
+        },
+        {
+          "source":"user.password.reset.exchange",
+          "vhost":"/",
+          "destination":"user.password.reset.queue",
+          "destination_type":"queue",
+          "routing_key":"user.password.reset.queue",
+          "arguments":{}
+        },
+        {
+          "source":"admin.events.exchange",
+          "vhost":"/",
+          "destination":"admin.events.queue",
+          "destination_type":"queue",
+          "routing_key":"admin.events.queue",
+          "arguments":{}
+        }
+      ]
+    }

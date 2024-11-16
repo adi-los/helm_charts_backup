@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kong.fullname" . }}
+  labels:
+    {{- include "kong.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      {{- include "kong.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kong.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.kong.image.repository }}:{{ .Values.kong.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KONG_DATABASE
+              value: "postgres"
+            - name: KONG_PG_HOST
+              value: "{{ .Values.postgresql.host }}"
+            - name: KONG_PG_DATABASE
+#              value: "kong"
+              value: "{{ .Values.postgresql.postgresDatabase }}"
+            - name: KONG_PG_USER
+#              value: "kong"
+              value: "{{ .Values.postgresql.postgresUser }}"
+            - name: KONG_PG_PASSWORD
+#              value: "kong"
+              value: "{{ .Values.postgresql.postgresPassword }}"
+            - name: KONG_PG_PORT
+#              value: "30945"
+              value: "{{ .Values.postgresql.service.nodePort }}"
+            - name: KONG_PROXY_LISTEN
+              value: "0.0.0.0:{{ .Values.kong.proxy.http.containerPort }}, 0.0.0.0:{{ .Values.kong.proxy.tls.containerPort }} ssl"
+            - name: KONG_ADMIN_LISTEN
+              value: "0.0.0.0:{{ .Values.kong.admin.http.containerPort }}, 0.0.0.0:{{ .Values.kong.admin.tls.containerPort }} ssl"
+            - name: KONG_PREFIX
+              value: {{ .Values.kong.env.prefix }}
+            - name: KONG_DECLARATIVE_CONFIG
+              value: {{ .Values.kong.env.declarative_config }}
+            - name: KONG_PLUGINS
+              value: {{ .Values.kong.env.plugins }}
+            - name: KONG_SSL_CERT
+              value: {{ .Values.kong.env.ssl_cert }}
+            - name: KONG_SSL_CERT_KEY
+              value: {{ .Values.kong.env.ssl_cert_key }}
+          ports:
+            - containerPort: 8000
+            - containerPort: 8443
+            - containerPort: 8001
+            - containerPort: 8444
+          volumeMounts:
+            {{- toYaml .Values.kong.volumeMounts | nindent 12 }}
+            - name: kong-run
+              mountPath: /var/run/kong
+          securityContext:
+            runAsUser: 0
+      volumes:
+        {{- toYaml .Values.kong.volumes | nindent 8 }}
+        - name: kong-run
+          emptyDir: {}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13
+          args:
+            - "-c"
+            - "max_connections=200"
+          env:
+            - name: POSTGRES_DB
+              value: "{{ .Values.postgresql.postgresDatabase }}"
+            - name: POSTGRES_USER
+              value: "{{ .Values.postgresql.postgresUser }}"
+            - name: POSTGRES_PASSWORD
+              value: "{{ .Values.postgresql.postgresPassword }}"
+          ports:
+            - containerPort: 5432
+

@@ -1,0 +1,64 @@
+kong:
+  image:
+    repository: dev-winu.artifact.winu.fr/kong
+    tag: custom
+  database:
+    postgres:
+      enabled: true
+      postgresDatabase: kong
+      postgresUser: kong
+      postgresPassword: kong
+  env:
+    database: postgres
+    prefix: /var/run/kong
+    declarative_config: /opt/config/kong.yml
+    plugins: oidc,key-auth
+    ssl_cert: /certs/tls.crt
+    ssl_cert_key: /certs/tls.key
+  proxy:
+    http:
+      containerPort: 8000
+      servicePort: 9440
+    tls:
+      containerPort: 8443
+      servicePort: 9441
+  admin:
+    http:
+      containerPort: 8001
+      servicePort: 9442
+    tls:
+      containerPort: 8444
+      servicePort: 9443
+  volumes:
+    - name: kong-config
+      configMap:
+        name: kong-config
+    - name: kong-certs
+      secret:
+        secretName: kong-externalsecret-tls  # ExternalSecret name
+#    - name: kong-run
+#      mountPath: /var/run/kong
+  volumeMounts:
+    - name: kong-config
+      mountPath: /opt/config
+    - name: kong-certs
+      mountPath: /certs
+      readOnly: true
+#    - name: kong-run
+#      emptyDir: {}
+
+postgresql:
+  enabled: true
+  postgresDatabase: kong
+  postgresUser: kong
+  postgresPassword: kong
+  service:
+    port: 5432
+    nodePort: 30945
+  host: database.winu.fr
+
+traefik:
+  ingressRoute:
+    host: kong.winu.fr
+    adminPathPrefix: /admin
+    proxyPathPrefix: /proxy

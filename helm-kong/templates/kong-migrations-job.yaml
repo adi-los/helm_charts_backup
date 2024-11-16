@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kong-migrations
+  namespace: {{ .Release.Namespace }}
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      containers:
+      - name: kong-migrations
+        image: dev-winu.artifact.winu.fr/kong:custom
+        command: ["sh", "-c", "kong migrations bootstrap && kong migrations up && kong migrations finish"]
+        env:
+          - name: KONG_DATABASE
+            value: "postgres"  
+          - name: KONG_PG_HOST
+            value: "{{ .Values.postgresql.host }}"
+          - name: KONG_PG_DATABASE
+            value: "{{ .Values.postgresql.postgresDatabase }}"
+          - name: KONG_PG_USER
+            value: "{{ .Values.postgresql.postgresUser }}"
+          - name: KONG_PG_PASSWORD
+            value: "{{ .Values.postgresql.postgresPassword }}"
+          - name: KONG_PG_PORT
+            value: "{{ .Values.postgresql.service.nodePort }}"
+      restartPolicy: OnFailure  
+

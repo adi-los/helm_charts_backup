@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-service
+  labels:
+    app: keycloak
+spec:
+  ports:
+    - name: http
+      port: 9440
+      targetPort: 8080
+      protocol: TCP
+    - name: https
+      port: 9441
+      targetPort: 443
+  selector:
+    app: keycloak
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service 
+  labels:
+    app: postgres
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: postgres-service 
+spec:
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+      nodePort: 30940
+  selector:
+    app: postgres
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+  labels:
+    app: rabbitmq
+spec:
+  ports:
+    - name: amqp
+      port: 9442
+      targetPort: 5672
+      protocol: TCP
+    - name: management
+      port: 9443
+      targetPort: 15672
+  selector:
+    app: rabbitmq
+  type: ClusterIP

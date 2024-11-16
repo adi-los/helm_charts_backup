@@ -1,0 +1,40 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: keycloak-ingress
+  namespace: kc
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`keycloak.winu.fr`)
+      kind: Rule
+      services:
+        - name: keycloak-service
+          port: 9441
+          scheme: https
+  tls:
+    secretName: keycloak-externalsecret-tls
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rabbitmq-ingress
+  namespace: kc
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`rabbitmq.winu.fr`)
+      kind: Rule
+      services:
+        - name: rabbitmq-service
+          port: 9443
+          scheme: http
+  tls:
+    secretName: rabbitmq-externalsecret-tls
