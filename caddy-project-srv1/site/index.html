@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caddy Test Page</title>
+</head>
+<body>
+    <h1>Caddy Test Page</h1>
+    <p>If you can see this, Caddy is working correctly!</p>
+    
+    <h2>Test Links:</h2>
+    <ul>
+        <li><a href="/icmp_forwarding?namespace=test">Test ICMP Forwarding</a></li>
+        <li><a href="/all_icmp?namespace=test">Test All ICMP</a></li>
+    </ul>
+
+    <script>
+        // Simple test to verify dynamic content
+        document.addEventListener('DOMContentLoaded', () => {
+            const testDiv = document.createElement('div');
+            testDiv.textContent = `Page loaded at: ${new Date().toLocaleString()}`;
+            document.body.appendChild(testDiv);
+        });
+    </script>
+</body>
+</html>

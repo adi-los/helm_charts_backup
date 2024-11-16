@@ -1,0 +1,16 @@
+{
+  "name": "icmp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "pg": "^8.13.1",
+    "uuid": "^11.0.2"
+  }
+}
