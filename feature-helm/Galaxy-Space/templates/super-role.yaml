@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: super-cluster-role  # Name of the role
+rules:
+  - apiGroups: ["*"]        # This grants access to all API groups
+    resources: ["*"]        # This grants access to all resources
+    verbs: ["*"]            # This grants all possible actions (get, list, create, update, delete, etc.)
+

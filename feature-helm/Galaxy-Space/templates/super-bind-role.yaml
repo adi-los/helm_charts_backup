@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: super-cluster-rolebinding  # Name of the role binding
+subjects:
+  - kind: ServiceAccount
+    name: cert-watcher-sa          # The service account you want to bind this role to
+    namespace: certi-net           # The namespace of the ServiceAccount
+roleRef:
+  kind: ClusterRole
+  name: super-cluster-role         # Reference the superuser ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+

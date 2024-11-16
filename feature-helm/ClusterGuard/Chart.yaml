@@ -1,0 +1,11 @@
+apiVersion: v2
+description: A Helm chart to deploy ClusterGuard with full Kubernetes privileges.
+keywords:
+- CPU RAM
+- kubernetes
+- certificates
+maintainers:
+- email: adil@winu.fr
+  name: Adil
+name: ClusterGuard
+version: 1.0.0

@@ -1,0 +1,358 @@
+apiVersion: v1
+entries:
+  Certi-Net:
+  - apiVersion: v2
+    created: "2024-10-13T15:05:26.981190223+02:00"
+    description: A Helm chart to deploy Certi-Net with full Kubernetes privileges.
+    digest: e940648bf4911afaf55342d06af8cf47b376bb9b6f6b5bd230da117310c0d152
+    keywords:
+    - cert-gen
+    - kubernetes
+    - certificates
+    maintainers:
+    - email: adil@winu.fr
+      name: Adil
+    name: Certi-Net
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/Certi-Net-1.0.0.tgz
+    version: 1.0.0
+  ClusterGuard:
+  - apiVersion: v2
+    created: "2024-10-13T15:05:26.981685859+02:00"
+    description: A Helm chart to deploy ClusterGuard with full Kubernetes privileges.
+    digest: d3166489c7bfaaececb2d1507d9c5d95923443737fbbcfb17b7a6ef9c8bd32c6
+    keywords:
+    - CPU RAM
+    - kubernetes
+    - certificates
+    maintainers:
+    - email: adil@winu.fr
+      name: Adil
+    name: ClusterGuard
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/ClusterGuard-1.0.0.tgz
+    version: 1.0.0
+  Galaxy-Space:
+  - apiVersion: v2
+    created: "2024-10-13T15:05:26.989561549+02:00"
+    description: A Helm chart to deploy Galaxy-Space with full Kubernetes privileges.
+    digest: d3bd2ebe24004b6b87748537845882b4c71091d2b3647d73c6f4b4be1f57a780
+    keywords:
+    - cert-watcher
+    - kubernetes
+    - certificates
+    maintainers:
+    - email: adil@winu.fr
+      name: Adil
+    name: Galaxy-Space
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/Galaxy-Space-1.0.0.tgz
+    version: 1.0.0
+  Pods-Watcher:
+  - apiVersion: v2
+    created: "2024-10-13T15:05:26.989927243+02:00"
+    description: A Helm chart to deploy Pods-Watcher with full Kubernetes privileges.
+    digest: 7fe20574a7d13c816ae4f9f5fedac0225e58150677b896c0417e1b7f763cb0e7
+    keywords:
+    - pods-watcher
+    - kubernetes
+    - pods
+    maintainers:
+    - email: adil@winu.fr
+      name: Adil
+    name: Pods-Watcher
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/Pods-Watcher-1.0.0.tgz
+    version: 1.0.0
+  argo-cd:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Optionally map argocd-repo-server emptydir volumes on custom volumes
+      artifacthub.io/signKey: |
+        fingerprint: 2B8F22F57260EFA67BE1C5824B11F800CD9D2252
+        url: https://argoproj.github.io/argo-helm/pgp_keys.asc
+    apiVersion: v2
+    appVersion: v2.9.3
+    created: "2024-10-13T15:05:27.029215239+02:00"
+    dependencies:
+    - condition: redis-ha.enabled
+      name: redis-ha
+      repository: https://dandydeveloper.github.io/charts/
+      version: 4.23.0
+    description: A Helm chart for Argo CD, a declarative, GitOps continuous delivery
+      tool for Kubernetes.
+    digest: 217c8ed3426d8468bf4a86a46ec5a4f5b4bd6f6988ca79df0d4d6218fd61beee
+    home: https://github.com/argoproj/argo-helm
+    icon: https://argo-cd.readthedocs.io/en/stable/assets/logo.png
+    keywords:
+    - argoproj
+    - argocd
+    - gitops
+    kubeVersion: '>=1.20.15-0'
+    maintainers:
+    - name: argoproj
+      url: https://argoproj.github.io/
+    name: argo-cd
+    sources:
+    - https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+    - https://github.com/argoproj/argo-cd
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/argo-cd-5.53.0.tgz
+    version: 5.53.0
+  external-secrets:
+  - apiVersion: v2
+    appVersion: v0.9.10
+    created: "2024-10-13T15:05:27.035926985+02:00"
+    description: External secret management for Kubernetes
+    digest: e713af1af0e6783345f9f2bc19f9155c861ce78f081f8d4ca09d3bb00aff97f9
+    home: https://github.com/external-secrets/external-secrets
+    icon: https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png
+    keywords:
+    - kubernetes-external-secrets
+    - secrets
+    kubeVersion: '>= 1.19.0-0'
+    maintainers:
+    - email: kellinmcavoy@gmail.com
+      name: mcavoyk
+    name: external-secrets
+    type: application
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/external-secrets-0.9.10.tgz
+    version: 0.9.10
+  gitlab-runner:
+  - apiVersion: v1
+    appVersion: bleeding
+    created: "2024-10-13T15:05:27.048401345+02:00"
+    description: GitLab Runner
+    digest: 92c1576a9090f2cafa41ce224dba507d9fa1ffd37eb1279092314d1c0d98d849
+    icon: https://gitlab.com/uploads/-/system/project/avatar/250833/runner_logo.png
+    keywords:
+    - git
+    - ci
+    - deploy
+    maintainers:
+    - email: support@gitlab.com
+      name: GitLab Inc.
+    name: gitlab-runner
+    sources:
+    - https://gitlab.com/gitlab-org/charts/gitlab-runner
+    - https://gitlab.com/gitlab-org/gitlab-runner
+    - https://docs.gitlab.com/runner/
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/gitlab-runner-0.60.0-beta.tgz
+    version: 0.60.0-beta
+  grafana:
+  - annotations:
+      artifacthub.io/license: AGPL-3.0-only
+      artifacthub.io/links: |
+        - name: Chart Source
+          url: https://github.com/grafana/helm-charts
+        - name: Upstream Project
+          url: https://github.com/grafana/grafana
+    apiVersion: v2
+    appVersion: 10.0.3
+    created: "2024-10-13T15:05:27.053983665+02:00"
+    description: The leading tool for querying and visualizing time series and metrics.
+    digest: 3d9102f7a00a9c0b4270ccd8ec865a3b1cb7acbc5e21a0ff09a941b3e8183eb1
+    home: https://grafana.net
+    icon: https://raw.githubusercontent.com/grafana/grafana/master/public/img/logo_transparent_400x.png
+    keywords:
+    - monitoring
+    - metric
+    kubeVersion: ^1.8.0-0
+    maintainers:
+    - email: zanhsieh@gmail.com
+      name: zanhsieh
+    - email: rluckie@cisco.com
+      name: rtluckie
+    - email: maor.friedman@redhat.com
+      name: maorfr
+    - email: miroslav.hadzhiev@gmail.com
+      name: Xtigyro
+    - email: mail@torstenwalter.de
+      name: torstenwalter
+    name: grafana
+    sources:
+    - https://github.com/grafana/grafana
+    - https://github.com/grafana/helm-charts
+    type: application
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/grafana-6.58.7.tgz
+    version: 6.58.7
+  k8sconf:
+  - apiVersion: v2
+    created: "2024-10-13T15:05:27.054360017+02:00"
+    description: A Helm chart for config k8s
+    digest: 12feb225420f5ed343e22c123a11cc2813233581dcd99821e0aae15f3f7b12c9
+    name: k8sconf
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/k8sconf-0.1.0.tgz
+    version: 0.1.0
+  metallb:
+  - apiVersion: v2
+    created: "2024-10-13T15:05:27.054882358+02:00"
+    description: A Helm chart for MetalLB
+    digest: a28c524c6789415c6c43a7b342d3b1acc4970e3b512fb33c3d115ef3d726773b
+    name: metallb
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/metallb-0.1.0.tgz
+    version: 0.1.0
+  nfs-subdir-external-provisioner:
+  - apiVersion: v1
+    appVersion: 4.0.1
+    created: "2024-10-13T15:05:27.055446394+02:00"
+    description: nfs-subdir-external-provisioner is an automatic provisioner that
+      used your *already configured* NFS server, automatically creating Persistent
+      Volumes.
+    digest: 187847614654fb4715b01fbb9fb96cd8361041633f9bb1228255d56c595a1cab
+    home: https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
+    keywords:
+    - nfs
+    - storage
+    - provisioner
+    kubeVersion: '>=1.9.0-0'
+    name: nfs-subdir-external-provisioner
+    sources:
+    - https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/nfs-subdir-external-provisioner-4.0.6.tgz
+    version: 4.0.6
+  nginx-chart:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-10-13T15:05:27.055736392+02:00"
+    description: A Helm chart for Kubernetes
+    digest: 326eaf9fb761288da5ea85a29535b2a14e777f0fae501efa2b939854d80b6d0e
+    name: nginx-chart
+    type: application
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/nginx-chart-0.1.0.tgz
+    version: 0.1.0
+  prometheus:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: Chart Source
+          url: https://github.com/prometheus-community/helm-charts
+        - name: Upstream Project
+          url: https://github.com/prometheus/prometheus
+    apiVersion: v2
+    appVersion: v2.46.0
+    created: "2024-10-13T15:05:27.065192429+02:00"
+    dependencies:
+    - condition: alertmanager.enabled
+      name: alertmanager
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 0.33.*
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 5.10.*
+    - condition: prometheus-node-exporter.enabled
+      name: prometheus-node-exporter
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 4.21.*
+    - condition: prometheus-pushgateway.enabled
+      name: prometheus-pushgateway
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 2.4.*
+    description: Prometheus is a monitoring system and time series database.
+    digest: 4074534e85fe68084490f83b6db96442255226ebac3050978d9e9ac60c513faa
+    home: https://prometheus.io/
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - monitoring
+    - prometheus
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: gianrubio@gmail.com
+      name: gianrubio
+    - email: zanhsieh@gmail.com
+      name: zanhsieh
+    - email: miroslav.hadzhiev@gmail.com
+      name: Xtigyro
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: rootsandtrees@posteo.de
+      name: zeritti
+    name: prometheus
+    sources:
+    - https://github.com/prometheus/alertmanager
+    - https://github.com/prometheus/prometheus
+    - https://github.com/prometheus/pushgateway
+    - https://github.com/prometheus/node_exporter
+    - https://github.com/kubernetes/kube-state-metrics
+    type: application
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/prometheus-23.2.0.tgz
+    version: 23.2.0
+  traefik:
+  - annotations:
+      artifacthub.io/changes: "- \U0001F3A8 Don't require exposed Ports when enabling
+        Hub\n"
+    apiVersion: v2
+    appVersion: 2.9.4
+    created: "2024-10-13T15:05:27.07728221+02:00"
+    description: A Traefik based Kubernetes ingress controller
+    digest: 4813d7e743fdde0a1aa8ed1f84344ca7953795d5e409f663b04bcf833556dfc7
+    home: https://traefik.io/
+    icon: https://raw.githubusercontent.com/traefik/traefik/v2.3/docs/content/assets/img/traefik.logo.png
+    keywords:
+    - traefik
+    - ingress
+    maintainers:
+    - email: emile@vauge.com
+      name: emilevauge
+    - email: daniel.tomcej@gmail.com
+      name: dtomcej
+    - email: ldez@traefik.io
+      name: ldez
+    - email: michel.loiseleur@traefik.io
+      name: mloiseleur
+    - email: charlie.haley@traefik.io
+      name: charlie-haley
+    name: traefik
+    sources:
+    - https://github.com/traefik/traefik
+    - https://github.com/traefik/traefik-helm-chart
+    type: application
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/traefik-1.0.0.tgz
+    version: 1.0.0
+  vault:
+  - apiVersion: v2
+    appVersion: 1.11.3
+    created: "2024-10-13T15:05:27.081390424+02:00"
+    description: Official HashiCorp Vault Chart
+    digest: 4cf77fc6bcb91268d50641c33cc0da59a7e40bad759530e6aab99697626d4aa9
+    home: https://www.vaultproject.io
+    icon: https://github.com/hashicorp/vault/raw/f22d202cde2018f9455dec755118a9b84586e082/Vault_PrimaryLogo_Black.png
+    keywords:
+    - vault
+    - security
+    - encryption
+    - secrets
+    - management
+    - automation
+    - infrastructure
+    kubeVersion: '>= 1.16.0-0'
+    name: vault
+    sources:
+    - https://github.com/hashicorp/vault
+    - https://github.com/hashicorp/vault-helm
+    - https://github.com/hashicorp/vault-k8s
+    - https://github.com/hashicorp/vault-csi-provider
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/vault-1.0.0.tgz
+    version: 1.0.0
+  vault-storage:
+  - apiVersion: v2
+    created: "2024-10-13T15:05:27.086927228+02:00"
+    description: A Helm chart for vault_storage
+    digest: 3946160dbd235679d2cf8230d5c1681e11a3812d432fed21182b5f58f88613e8
+    name: vault-storage
+    urls:
+    - https://dev-winu.artifact.winu.fr/artifactory/helm-charts/vault-storage-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-10-13T15:05:26.96546409+02:00"

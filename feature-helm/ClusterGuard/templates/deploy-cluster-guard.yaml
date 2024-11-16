@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resource-monitor
+  namespace: certi-net  # Replace with your desired namespace
+  labels:
+    app: resource-monitor
+spec:
+  replicas: 1  # Number of replicas
+  selector:
+    matchLabels:
+      app: resource-monitor
+  template:
+    metadata:
+      labels:
+        app: resource-monitor
+    spec:
+      serviceAccountName: cert-watcher-sa  # Specify the service account to use
+      containers:
+        - name: resource-monitor
+          image: dev-winu.artifact.winu.fr/cluster-guard:0.0.1  # Replace with your Docker image
+          ports:
+            - containerPort: 8280  # Port your app listens on
+          env:
+            - name: RABBITMQ_HOST
+              value: "10.0.0.58"  # RabbitMQ hostname
+            - name: RABBITMQ_PORT
+              value: "5672"  # RabbitMQ port
+            - name: RABBITMQ_USERNAME
+              value: "adil"  # RabbitMQ username
+            - name: RABBITMQ_PASSWORD
+              value: "winu@winu"  # RabbitMQ password
+            - name: RABBITMQ_VHOST
+              value: "/"  # RabbitMQ vhost
+            - name: PORT
+              value: "8280"  # The port your app listens on
+            - name: CLUSTER_ID  # Adding CLUSTER_ID from ConfigMap
+              valueFrom:
+                configMapKeyRef:
+                  name: cluster-config  # Name of the ConfigMap
+                  key: CLUSTER_ID  # Key in the ConfigMap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: resource-monitor
+  namespace: certi-net  # Replace with your desired namespace
+spec:
+  type: ClusterIP  # You can change this to LoadBalancer if needed
+  ports:
+    - port: 8280
+      targetPort: 8280
+  selector:
+    app: resource-monitor
+

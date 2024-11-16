@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-watcher
+  namespace: certi-net  # Replace with your desired namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cert-watcher
+  template:
+    metadata:
+      labels:
+        app: cert-watcher
+    spec:
+      serviceAccountName: cert-watcher-sa  # Reference the Service Account created earlier
+      containers:
+        - name: cert-watcher
+          image: dev-winu.artifact.winu.fr/galaxy-space:0.0.4  # Your Docker image
+          ports:
+            - containerPort: 5000  # Port on which your app listens
+          env:
+            - name: NODE_ENV
+              value: production  # Environment variable to set the node environment
+

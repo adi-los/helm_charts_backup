@@ -1,0 +1,11 @@
+apiVersion: v2
+description: A Helm chart to deploy Galaxy-Space with full Kubernetes privileges.
+keywords:
+- cert-watcher
+- kubernetes
+- certificates
+maintainers:
+- email: adil@winu.fr
+  name: Adil
+name: Galaxy-Space
+version: 1.0.0
